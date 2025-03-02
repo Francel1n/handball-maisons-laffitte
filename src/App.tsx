@@ -6,6 +6,7 @@ import { PlayerSelector } from "@/components/player-selector";
 import { TrainingList } from "@/components/training-list";
 import { AdminPanel } from "@/components/admin-panel";
 import { hasPlayerIdentity, isPlayerAdmin } from "@/lib/storage";
+import InstallIncentiveButton from "@/components/install-incentive-button";
 
 function App() {
   const [hasIdentity, setHasIdentity] = useState(false);
@@ -57,6 +58,7 @@ function App() {
             </div>
           )}
         </main>
+        <InstallIncentiveButton />
       </div>
       <Toaster />
     </ThemeProvider>
