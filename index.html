@@ -2,30 +2,52 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101631" />
-    <meta name="description" content="Application de gestion des présences aux entraînements du club de handball de Maisons-Laffitte" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <meta
+      name="description"
+      content="Application de gestion des présences aux entraînements du club de handball de Maisons-Laffitte"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/icons/site.webmanifest" />
     <title>Handball Maisons-Laffitte</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Disable service worker registration in development environments
-      if ('serviceWorker' in navigator && 
-          !window.location.hostname.includes('stackblitz') && 
-          !window.location.hostname.includes('localhost') &&
-          !window.location.hostname.includes('webcontainer')) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-              console.log('Service Worker registered with scope:', registration.scope);
+      if (
+        "serviceWorker" in navigator &&
+        !window.location.hostname.includes("stackblitz") &&
+        !window.location.hostname.includes("webcontainer")
+      ) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log(
+                "Service Worker registered with scope:",
+                registration.scope
+              );
             })
-            .catch(error => {
-              console.error('Service Worker registration failed:', error);
+            .catch((error) => {
+              console.error("Service Worker registration failed:", error);
             });
         });
       }
