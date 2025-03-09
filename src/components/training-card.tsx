@@ -9,6 +9,7 @@ import { fetchAttendance, updateAttendance } from "@/lib/supabase";
 import { getPlayerId, isPlayerAdmin } from "@/lib/storage";
 import { AttendanceModal } from "@/components/attendance-modal";
 import { DeleteTrainingDialog } from "@/components/delete-training-dialog";
+import confetti from 'canvas-confetti';
 
 interface TrainingCardProps {
   id: string;
@@ -19,7 +20,7 @@ interface TrainingCardProps {
   onDelete?: () => void;
 }
 
-type AttendanceStatus = "present" | "absent" | "maybe";
+type AttendanceStatus = "present" | "absent";
 
 export function TrainingCard({ id, title, date, location, description, onDelete }: TrainingCardProps) {
   const [status, setStatus] = useState<AttendanceStatus | null>(null);
@@ -62,6 +63,14 @@ export function TrainingCard({ id, title, date, location, description, onDelete 
     try {
       await updateAttendance(playerId, id, newStatus);
       setStatus(newStatus);
+      
+      if (newStatus === "present") {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
     } catch (error) {
       console.error("Failed to update attendance:", error);
     } finally {
@@ -84,26 +93,24 @@ export function TrainingCard({ id, title, date, location, description, onDelete 
             <CardTitle className="text-xl font-bold">{title}</CardTitle>
             <div className="flex gap-2">
               {isPast && <Badge variant="outline">Passé</Badge>}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setShowAttendanceModal(true)}
+                title="Voir les présences"
+              >
+                <Users className="h-4 w-4" />
+              </Button>
               {isAdmin && (
-                <>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setShowAttendanceModal(true)}
-                    title="Voir les présences"
-                  >
-                    <Users className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setShowDeleteDialog(true)}
-                    className="text-destructive hover:text-destructive"
-                    title="Supprimer l'entraînement"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => setShowDeleteDialog(true)}
+                  className="text-destructive hover:text-destructive"
+                  title="Supprimer l'entraînement"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               )}
             </div>
           </div>
@@ -137,14 +144,6 @@ export function TrainingCard({ id, title, date, location, description, onDelete 
             Présent
           </Button>
           <Button
-            variant={status === "maybe" ? "default" : "outline"}
-            className={status === "maybe" ? "bg-amber-500 hover:bg-amber-600" : ""}
-            onClick={() => handleStatusChange("maybe")}
-            disabled={loading || isPast}
-          >
-            Peut-être
-          </Button>
-          <Button
             variant={status === "absent" ? "default" : "outline"}
             className={status === "absent" ? "bg-red-600 hover:bg-red-700" : ""}
             onClick={() => handleStatusChange("absent")}
@@ -155,24 +154,22 @@ export function TrainingCard({ id, title, date, location, description, onDelete 
         </CardFooter>
       </Card>
 
+      <AttendanceModal 
+        trainingId={id}
+        trainingTitle={title}
+        trainingDate={formattedDate}
+        open={showAttendanceModal}
+        onOpenChange={setShowAttendanceModal}
+      />
+      
       {isAdmin && (
-        <>
-          <AttendanceModal 
-            trainingId={id}
-            trainingTitle={title}
-            trainingDate={formattedDate}
-            open={showAttendanceModal}
-            onOpenChange={setShowAttendanceModal}
-          />
-          
-          <DeleteTrainingDialog
-            trainingId={id}
-            trainingTitle={title}
-            open={showDeleteDialog}
-            onOpenChange={setShowDeleteDialog}
-            onConfirm={handleDeleteConfirm}
-          />
-        </>
+        <DeleteTrainingDialog
+          trainingId={id}
+          trainingTitle={title}
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+          onConfirm={handleDeleteConfirm}
+        />
       )}
     </>
   );

@@ -75,7 +75,7 @@ export interface Database {
           id: string
           player_id: string
           training_id: string
-          status: 'present' | 'absent' | 'maybe'
+          status: 'present' | 'absent'
           created_at: string
           updated_at: string
         }
@@ -83,7 +83,7 @@ export interface Database {
           id?: string
           player_id: string
           training_id: string
-          status: 'present' | 'absent' | 'maybe'
+          status: 'present' | 'absent'
           created_at?: string
           updated_at?: string
         }
@@ -91,7 +91,7 @@ export interface Database {
           id?: string
           player_id?: string
           training_id?: string
-          status?: 'present' | 'absent' | 'maybe'
+          status?: 'present' | 'absent'
           created_at?: string
           updated_at?: string
         }

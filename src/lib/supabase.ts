@@ -164,7 +164,7 @@ export async function fetchAllAttendanceForTraining(trainingId: string) {
   }
 }
 
-export async function updateAttendance(playerId: string, trainingId: string, status: 'present' | 'absent' | 'maybe') {
+export async function updateAttendance(playerId: string, trainingId: string, status: 'present' | 'absent') {
   try {
     const attendance = await fetchAttendance(playerId, trainingId);
     

@@ -35,7 +35,7 @@ function App() {
       <div className="min-h-screen bg-background">
         <Header />
         
-        <main className="py-6">
+        <main className="py-6 px-4 max-w-xl mx-auto">
           {isLoading ? (
             <div className="flex justify-center items-center h-[80vh]">
               <p>Chargement...</p>
@@ -51,7 +51,7 @@ function App() {
               <PlayerSelector onPlayerSelected={handlePlayerSelected} />
             </div>
           ) : (
-            <div className="max-w-md mx-auto">
+            <div className="container">
               {isAdmin && <AdminPanel />}
               <h2 className="text-xl font-semibold mb-4">Entraînements</h2>
               <TrainingList />

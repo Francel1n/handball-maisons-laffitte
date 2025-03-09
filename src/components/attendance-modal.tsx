@@ -9,7 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchAllAttendanceForTraining } from "@/lib/supabase";
-import { CheckCircle2, XCircle, HelpCircle, CircleDashed } from "lucide-react";
+import { CheckCircle2, XCircle, CircleDashed } from "lucide-react";
 
 interface AttendanceModalProps {
   trainingId: string;
@@ -23,7 +23,7 @@ interface AttendanceWithPlayer {
   id: string;
   player_id: string;
   training_id: string;
-  status: "present" | "absent" | "maybe" | null;
+  status: "present" | "absent" | null;
   player: {
     id: string;
     name: string;
@@ -60,19 +60,16 @@ export function AttendanceModal({
 
   // Group attendance by status
   const presentPlayers = attendance.filter(a => a.status === "present");
-  const maybePlayers = attendance.filter(a => a.status === "maybe");
   const absentPlayers = attendance.filter(a => a.status === "absent");
   const noResponsePlayers = attendance.filter(a => a.status === null);
 
   // Calculate statistics
   const totalPlayers = attendance.length;
   const presentCount = presentPlayers.length;
-  const maybeCount = maybePlayers.length;
   const absentCount = absentPlayers.length;
   const noResponseCount = noResponsePlayers.length;
 
   const presentPercentage = totalPlayers > 0 ? Math.round((presentCount / totalPlayers) * 100) : 0;
-  const maybePercentage = totalPlayers > 0 ? Math.round((maybeCount / totalPlayers) * 100) : 0;
   const absentPercentage = totalPlayers > 0 ? Math.round((absentCount / totalPlayers) * 100) : 0;
   const noResponsePercentage = totalPlayers > 0 ? Math.round((noResponseCount / totalPlayers) * 100) : 0;
 
@@ -90,7 +87,7 @@ export function AttendanceModal({
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-4 gap-2 text-center text-sm mb-4">
+            <div className="grid grid-cols-3 gap-2 text-center text-sm mb-4">
               <div className="flex flex-col items-center">
                 <div className="flex items-center gap-1 mb-1">
                   <CheckCircle2 className="h-4 w-4 text-green-600" />
@@ -98,14 +95,6 @@ export function AttendanceModal({
                 </div>
                 <div className="font-bold">{presentCount}</div>
                 <div className="text-xs text-muted-foreground">{presentPercentage}%</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="flex items-center gap-1 mb-1">
-                  <HelpCircle className="h-4 w-4 text-amber-500" />
-                  <span>Peut-être</span>
-                </div>
-                <div className="font-bold">{maybeCount}</div>
-                <div className="text-xs text-muted-foreground">{maybePercentage}%</div>
               </div>
               <div className="flex flex-col items-center">
                 <div className="flex items-center gap-1 mb-1">
@@ -126,9 +115,8 @@ export function AttendanceModal({
             </div>
 
             <Tabs defaultValue="present" className="flex-1 flex flex-col">
-              <TabsList className="grid grid-cols-4">
+              <TabsList className="grid grid-cols-3">
                 <TabsTrigger value="present">Présents</TabsTrigger>
-                <TabsTrigger value="maybe">Peut-être</TabsTrigger>
                 <TabsTrigger value="absent">Absents</TabsTrigger>
                 <TabsTrigger value="no-response">N/A</TabsTrigger>
               </TabsList>
@@ -139,14 +127,6 @@ export function AttendanceModal({
                     players={presentPlayers.map(a => a.player)} 
                     icon={<CheckCircle2 className="h-4 w-4 text-green-600" />}
                     emptyMessage="Aucun joueur présent"
-                  />
-                </TabsContent>
-                
-                <TabsContent value="maybe" className="m-0">
-                  <PlayerList 
-                    players={maybePlayers.map(a => a.player)} 
-                    icon={<HelpCircle className="h-4 w-4 text-amber-500" />}
-                    emptyMessage="Aucun joueur incertain"
                   />
                 </TabsContent>
                 
