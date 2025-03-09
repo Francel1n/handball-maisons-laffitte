@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/lib/theme";
 import { Header } from "@/components/header";
 import { PlayerSelector } from "@/components/player-selector";
@@ -60,7 +59,6 @@ function App() {
         </main>
         <InstallIncentiveButton />
       </div>
-      <Toaster />
     </ThemeProvider>
   );
 }

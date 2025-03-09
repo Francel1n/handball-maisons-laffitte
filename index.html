@@ -20,6 +20,11 @@
       name="description"
       content="Application de gestion des présences aux entraînements du club de handball de Maisons-Laffitte"
     />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Handball ML" />
+    <meta name="application-name" content="Handball ML" />
+    <link rel="canonical" href="/" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -27,6 +32,18 @@
     />
     <link rel="manifest" href="/icons/site.webmanifest" />
     <title>Handball Maisons-Laffitte</title>
+    <!-- Préchargement des polices -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Gestion des apps iOS -->
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1668-2388.jpg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1536-2048.jpg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1125-2436.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242-2688.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-828-1792.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242-2208.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-750-1334.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
   </head>
   <body>
     <div id="root"></div>
@@ -42,15 +59,22 @@
             .register("/service-worker.js")
             .then((registration) => {
               console.log(
-                "Service Worker registered with scope:",
+                "Service Worker enregistré avec succès. Portée :",
                 registration.scope
               );
             })
             .catch((error) => {
-              console.error("Service Worker registration failed:", error);
+              console.error("Échec de l'enregistrement du Service Worker :", error);
             });
         });
       }
     </script>
+    <!-- Fallback pour les navigateurs qui ne supportent pas JavaScript -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: system-ui, sans-serif;">
+        <h2>JavaScript est nécessaire</h2>
+        <p>Cette application nécessite JavaScript pour fonctionner. Veuillez l'activer dans les paramètres de votre navigateur.</p>
+      </div>
+    </noscript>
   </body>
 </html>
